@@ -1,5 +1,9 @@
 local common = {}
 
+function common.round(x)
+  return math.floor(x + 0.5)
+end
+
 function common.sign(x)
   return (x < 0) and -1 or 1
 end

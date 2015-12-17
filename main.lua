@@ -2,11 +2,14 @@ local GameScreen = require "GameScreen"
 
 function love.load()
   love.window.setTitle("Ludum Dare 34")
+
   love.window.setMode(800, 600, {
-    fullscreen = true,
+    -- fullscreen = true,
     fullscreentype = "desktop",
     resizable = "true",
   })
+
+  love.mouse.setVisible(false)
 
   screen = GameScreen.new()
 end

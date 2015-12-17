@@ -5,6 +5,10 @@ function Game.new(args)
   args = args or {}
 
   local game = {
+    dt = 0,
+    time = 0,
+    minDt = args.minDt or 1 / 120, maxDt = args.maxDt or 1 / 30,
+
     entitiesByName = {},
 
     updatePasses = args.updatePasses or {},
@@ -28,9 +32,17 @@ function Game.new(args)
 end
 
 function Game:update(dt)
-  for _, pass in ipairs(self.updatePasses) do
-    for entity, handler in pairs(self.updateHandlers[pass]) do
-      handler(entity, dt)
+  self.time = self.time + dt
+  self.dt = self.dt + dt
+
+  if self.dt > self.minDt then
+    local dt = math.min(self.dt, self.maxDt)
+    self.dt = math.min(self.dt - dt, self.maxDt)
+
+    for _, pass in ipairs(self.updatePasses) do
+      for entity, handler in pairs(self.updateHandlers[pass]) do
+        handler(entity, dt)
+      end
     end
   end
 end

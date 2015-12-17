@@ -1,8 +1,7 @@
 local Camera = require "Camera"
 local Fade = require "Fade"
 local Game = require "Game"
-local Player = require "Player"
-local Terrain = require "Terrain"
+local Score = require "Score"
 
 local GameScreen = {}
 GameScreen.__index = GameScreen
@@ -17,8 +16,8 @@ function GameScreen.new(args)
   local screen = {}
 
   screen.game = Game.new({
-    updatePasses = {"player", "fade", "camera"},
-    drawPasses = {"camera", "terrain", "player", "fade"},
+    updatePasses = {"score", "character", "fade", "camera"},
+    drawPasses = {"camera", "terrain", "character", "fade", "score"},
   })
 
   screen.game.images.tiles = {
@@ -34,44 +33,17 @@ function GameScreen.new(args)
 
   Camera.new({
     game = screen.game,
-    scale = 0.125,
-  })
-
-  local terrain = Terrain.new({
-    game = screen.game,
-  })
-
-  terrain:setTile(-3, -1, "stone")
-  terrain:setTile(-3, 0, "stone")
-  terrain:setTile(-2, 0, "stone")
-  terrain:setTile(-1, 0, "stone")
-  terrain:setTile(0, 0, "stone")
-  terrain:setTile(1, 0, "stone")
-  terrain:setTile(2, 0, "stone")
-  terrain:setTile(3, 0, "stone")
-  terrain:setTile(3, 0, "stone")
-  terrain:setTile(4, 0, "stone")
-  terrain:setTile(4, -1, "stone")
-  terrain:setTile(4, -2, "stone")
-  terrain:setTile(4, -3, "stone")
-  terrain:setTile(4, -4, "stone")
-  terrain:setTile(4, -5, "stone")
-  terrain:setTile(4, -6, "stone")
-  terrain:setTile(4, -7, "stone")
-  terrain:setTile(3, -7, "stone")
-  terrain:setTile(2, -7, "stone")
-  terrain:setTile(1, -7, "stone")
-
-  Player.new({
-    game = screen.game,
-    x = 0, y = -10,
-    width = 2, height = 3,
+    scale = 0.25,
   })
 
   Fade.new({
     game = screen.game,
     time1 = 0, time2 = 2,
     color1 = {0, 0, 0, 255}, color2 = {0, 0, 0, 0},
+  })
+
+  Score.new({
+    game = screen.game,
   })
 
   return setmetatable(screen, GameScreen)
